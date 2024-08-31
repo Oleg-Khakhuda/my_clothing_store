@@ -1,0 +1,12 @@
+.sidebar {
+  margin-right: 16px;
+
+  @media screen and (min-width: 768px) {
+    margin-right: 20px;
+  }
+}
+
+.sidebar_icon svg {
+  width: 24px;
+  height: 24px;
+}

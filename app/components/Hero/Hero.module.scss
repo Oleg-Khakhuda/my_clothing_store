@@ -1,0 +1,34 @@
+.hero {
+  width: auto;
+  height: auto;
+}
+
+.hero_mob {
+  display: none;
+
+  @media screen and (max-width: 767.98px) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.hero_tablet {
+  display: none;
+
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.hero_desktop {
+  display: none;
+
+  @media screen and (min-width: 1200px) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}

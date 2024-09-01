@@ -4,6 +4,7 @@ import { getGenderCategories } from "./(server)/api/genderCategories/route";
 import Link from "next/link";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
+import Footer from "./components/Footer/Footer";
 
 const Home = async () => {
   const { categories } = await getGenderCategories();
@@ -43,6 +44,7 @@ const Home = async () => {
           </ul>
         </div>
       </main>
+      <Footer />
     </>
   );
 };

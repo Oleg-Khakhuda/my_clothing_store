@@ -1,6 +1,7 @@
 .hero {
   width: auto;
   height: auto;
+  margin-top: -64px;
 }
 
 .hero_mob {
@@ -8,7 +9,8 @@
 
   @media screen and (max-width: 767.98px) {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    max-width: 768px;
     height: auto;
   }
 }
@@ -18,7 +20,8 @@
 
   @media screen and (min-width: 768px) and (max-width: 1200px) {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    max-width: 1200px;
     height: auto;
   }
 }

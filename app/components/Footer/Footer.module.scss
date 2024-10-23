@@ -42,21 +42,11 @@
 
 @media (max-width: 1200px) {
   .footerSection {
-    flex-basis: 45%;
+    flex-basis: 40%;
   }
 }
 
-@media (max-width: 780px) {
-  .footerSection {
-    flex-basis: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .footerContainer {
-    flex-direction: column;
-  }
-
+@media (max-width: 768px) {
   .footerSection {
     flex-basis: 100%;
   }

@@ -1,0 +1,32 @@
+.logo {
+  width: 250px;
+  height: auto;
+  opacity: 0.1;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  // background-color: #b14040;
+}
+
+.logoImg {
+  animation: circleScale 1s infinite;
+}
+
+@keyframes circleScale {
+  0% {
+    transform: scale(0.7);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.7);
+  }
+}

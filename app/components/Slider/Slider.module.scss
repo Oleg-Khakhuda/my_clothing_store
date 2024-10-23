@@ -1,0 +1,29 @@
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.link {
+}
+
+.info {
+  padding: 0 0 0 20px;
+}
+
+.name {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+}
+
+.price {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+}

@@ -2,6 +2,7 @@
 
 const nextConfig = {
   images: {
+    formats: ["image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -9,6 +10,12 @@ const nextConfig = {
         pathname: "**",
       },
     ],
+  },
+  env: {
+    NEXT_API_URL: "http://localhost:7000",
+
+    FETCH_GENDERCATEGORY: "/api/gendercategories/",
+    FETCH_PRODUCTS: "/api/products/allProducts/",
   },
 };
 

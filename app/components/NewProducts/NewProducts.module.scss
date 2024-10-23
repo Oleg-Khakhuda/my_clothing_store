@@ -1,0 +1,20 @@
+.title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  &::before {
+    content: "";
+    width: 50px;
+    height: 1px;
+    background-color: rgba(157, 164, 189, 0.6);
+    margin-right: 15px;
+    margin-left: 10px;
+    display: inline-block;
+  }
+}
+
+.slider {
+  margin-bottom: 60px;
+}

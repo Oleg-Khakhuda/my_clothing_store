@@ -2,3 +2,67 @@
   width: 20px;
   height: 20px;
 }
+
+// .search_button {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 5px;
+// }
+
+.form_overlay {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+
+  transition: bottom var(--animation-duration) var(--timing-function);
+
+  &.is-open {
+    bottom: -60px;
+  }
+}
+
+.form_modal {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100vw;
+  min-height: 200px;
+  z-index: 100;
+  background-color: #ececec;
+  transition: top var(--animation-duration) var(--timing-function);
+
+  &.is-open {
+    top: 60px;
+  }
+}
+
+.form {
+  padding: 20px;
+}
+
+.input {
+  height: 40px;
+  border: 1px solid #c1bfbf;
+  border-radius: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+  background: #fff;
+}
+
+@media screen and (max-width: 780px) {
+  .input {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .input {
+    width: 200px;
+  }
+}

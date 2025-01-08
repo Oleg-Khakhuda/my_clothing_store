@@ -1,27 +1,34 @@
-"use client";
+'use client'
 
-import s from "./NewProducts.module.scss";
-import Slider from "../Slider/Slider";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { fetchProductsThunk } from "../../redux/features/products/thunks";
+import s from './NewProducts.module.scss'
+import Slider from '../Slider/Slider'
+import { useAppSelector } from '../../redux/hooks'
+import { useState, useEffect } from 'react'
 
 const NewProducts = () => {
-  const dispatch = useAppDispatch();
+  const allProducts = useAppSelector(state => state.products.items)
+  const products = allProducts.slice(0, 9)
+
+  // Expected server HTML to contain a matching <div> in <div>. Error Component Stack
+
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchProductsThunk());
-  }, [dispatch]);
+    setMounted(true)
+  }, [])
 
-  const allProducts = useAppSelector((state) => state.products.items);
-  const products = allProducts.slice(0, 9);
+  if (!mounted) return null
 
   return (
-    <div className={s.slider}>
-      <h2 className={s.title}>Новинки</h2>
-      <Slider products={products} />
-    </div>
-  );
-};
+    <>
+      {products && (
+        <div className={s.slider}>
+          <h2 className={s.title}>Новинки</h2>
+          <Slider products={products} />
+        </div>
+      )}
+    </>
+  )
+}
 
-export default NewProducts;
+export default NewProducts

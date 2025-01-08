@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <Link href={"/"} rel="preload" as="style">
+    <Link href={"/"} rel="preload">
       <div className={s.logo}>My Clothing</div>
     </Link>
   );

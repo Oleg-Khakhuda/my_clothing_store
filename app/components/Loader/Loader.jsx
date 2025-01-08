@@ -2,7 +2,7 @@ import Image from "next/image";
 import Logo from "../../../public/logo.avif";
 import s from "./Loader.module.scss";
 
-const Loader = () => {
+export default function Loader() {
   return (
     <div className={s.logo}>
       <Image
@@ -15,6 +15,4 @@ const Loader = () => {
       />
     </div>
   );
-};
-
-export default Loader;
+}

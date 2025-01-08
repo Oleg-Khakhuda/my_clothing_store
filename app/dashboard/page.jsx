@@ -1,6 +1,8 @@
 import React from "react";
-import s from "./dashboard.module.scss";
+import { Dashboard } from "../components/Dashboard/Dashboard";
 
-export default function Dashboard() {
-  return <div className={s.title}>Dashboard</div>;
-}
+const page = () => {
+  return <Dashboard />;
+};
+
+export default page;

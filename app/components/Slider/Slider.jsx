@@ -1,52 +1,49 @@
-"useClient";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import "swiper/scss";
-import "swiper/scss/navigation";
-import "swiper/scss/pagination";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination } from 'swiper/modules'
+import 'swiper/scss'
+import 'swiper/scss/navigation'
+import 'swiper/scss/pagination'
 
-import s from "./Slider.module.scss";
+import s from './Slider.module.scss'
 
 const Slider = ({ products }) => {
-  const [windowSize, setWindowSize] = useState();
+  const [windowSize, setWindowSize] = useState()
 
   useEffect(() => {
-    setWindowSize(window.innerWidth);
-  }, []);
+    setWindowSize(window.innerWidth)
+  }, [])
 
   const widthViewPort = () => {
     if ((windowSize > 768) & (windowSize < 1200)) {
-      return 4;
+      return 4
     } else if (windowSize > 1200) {
-      return 5;
+      return 5
     } else {
-      return 3;
+      return 3
     }
-  };
+  }
 
   return (
     <Swiper
-      modules={[Autoplay, Navigation, Pagination]}
+      modules={[Autoplay, Pagination]}
       spaceBetween={10}
       slidesPerView={widthViewPort()}
       // centeredSlides={true}
-      navigation
+
       pagination={{ clickable: true }}
       autoplay={{
         delay: 3000,
         disableOnInteraction: false,
       }}
     >
-      {products.map((product) => (
+      {products.map(product => (
         <SwiperSlide key={product.id}>
-          <Link
-            className={s.link}
-            href={`/${product.genderCategory}/${product.category}/${product.id}`}
-          >
+          <Link className={s.link} href={`/${product.genderCategory?.slug}/${product.category?.slug}/${product.id}`}>
             <Image
               className={s.image}
               src={product.image[0].url}
@@ -58,9 +55,7 @@ const Slider = ({ products }) => {
             />
             <div className={s.info}>
               <h2 className={s.name}>
-                {product.name.length > 15
-                  ? product.name.split(" ").slice(0, 2).join(" ")
-                  : product.name}
+                {product.name.length > 15 ? product.name.split(' ').slice(0, 2).join(' ') : product.name}
               </h2>
               <p>{product.price} грн.</p>
             </div>
@@ -68,7 +63,7 @@ const Slider = ({ products }) => {
         </SwiperSlide>
       ))}
     </Swiper>
-  );
-};
+  )
+}
 
-export default Slider;
+export default Slider

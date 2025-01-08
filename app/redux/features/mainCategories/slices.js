@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchGenderCategoryThunk } from "./thunks";
+import { fetchMainCategoryThunk } from "./thunks";
 
-const genderCategorySlice = createSlice({
-  name: "genderCategory",
+const mainCategorySlice = createSlice({
+  name: "mainCategory",
   initialState: {
     items: [],
     error: null,
@@ -11,14 +11,14 @@ const genderCategorySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchGenderCategoryThunk.pending, (state, action) => {
+      .addCase(fetchMainCategoryThunk.pending, (state, action) => {
         state.isLoading = true;
       })
-      .addCase(fetchGenderCategoryThunk.fulfilled, (state, action) => {
+      .addCase(fetchMainCategoryThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.items = action.payload;
       })
-      .addCase(fetchGenderCategoryThunk.rejected, (state, action) => {
+      .addCase(fetchMainCategoryThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
@@ -51,4 +51,4 @@ const genderCategorySlice = createSlice({
   },
 });
 
-export const genderCategoryReducer = genderCategorySlice.reducer;
+export const mainCategoryReducer = mainCategorySlice.reducer;

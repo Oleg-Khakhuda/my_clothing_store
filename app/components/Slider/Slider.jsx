@@ -46,7 +46,7 @@ const Slider = ({ products }) => {
           <Link className={s.link} href={`/${product.genderCategory?.slug}/${product.category?.slug}/${product.id}`}>
             <Image
               className={s.image}
-              src={product.image[0].url}
+              src={product.image[0]?.url}
               alt="product"
               width="0"
               height="0"
@@ -57,7 +57,7 @@ const Slider = ({ products }) => {
               <h2 className={s.name}>
                 {product.name.length > 15 ? product.name.split(' ').slice(0, 2).join(' ') : product.name}
               </h2>
-              <p>{product.price} грн.</p>
+              <p>{product.price} ₴</p>
             </div>
           </Link>
         </SwiperSlide>

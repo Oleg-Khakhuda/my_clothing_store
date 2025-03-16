@@ -3,10 +3,10 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import s from '../Product/Product.module.scss'
-import { fetchProductByIdThunk } from '@/app/redux/features/products/thunks'
+import { fetchProductByIdThunk, removeProductThunk } from '@/app/redux/features/products/thunks'
 import { useRef } from 'react'
 import { GiShoppingCart } from 'react-icons/gi'
-import { useAppSelector, useAppStore } from '@/app/redux/hooks'
+import { useAppSelector, useAppStore, useAppDispatch } from '@/app/redux/hooks'
 
 const Product = ({ productId }) => {
   const store = useAppStore()
@@ -16,9 +16,11 @@ const Product = ({ productId }) => {
     initialized.current = true
   }
 
-  const product = useAppSelector(state => state.productById.items)
+  const dispatch = useAppDispatch()
 
-  const [size, setSize] = useState('')
+  const product = useAppSelector(state => state.productById.items)
+  product.sizeList?.map(size => console.log(size))
+  console.log(product)
 
   const handleInputChange = e => {
     setSize(e.target.value)
@@ -26,6 +28,12 @@ const Product = ({ productId }) => {
 
   const handleClick = e => {
     console.log(size)
+  }
+
+  const handleUpdateClick = e => {}
+
+  const handleDeleteClick = () => {
+    dispatch(removeProductThunk(productId))
   }
 
   return (
@@ -73,6 +81,14 @@ const Product = ({ productId }) => {
             <button type="submit" className={s.button} onClick={handleClick}>
               <GiShoppingCart />
               <p>В КОШИК</p>
+            </button>
+            <button type="button" className={s.button} onClick={handleUpdateClick}>
+              <GiShoppingCart />
+              <p>UPDATE</p>
+            </button>
+            <button type="button" className={s.button} onClick={handleDeleteClick}>
+              <GiShoppingCart />
+              <p>DELETE</p>
             </button>
           </div>
         </>

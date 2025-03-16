@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import Link from 'next/link'
 import Head from 'next/head'
+import { StoreProviderModalStatus } from './StoreProviderModalStatus'
 
 export const metadata = {
   title: 'My Clothing',
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
       <body>
         <StoreProvider>
           <Header />
-          {children}
+          <StoreProviderModalStatus>{children}</StoreProviderModalStatus>
           <Footer />
         </StoreProvider>
       </body>

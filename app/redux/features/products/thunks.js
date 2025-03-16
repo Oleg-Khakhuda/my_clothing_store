@@ -3,10 +3,12 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.DEV_NEXT_API_URL
 
-const FETCH_PRODUCTS = process.env.FETCH_PRODUCTS
-const FETCH_PRODUCTS_BY_MAINCAT = process.env.FETCH_PRODUCTS_BY_MAINCAT
-const FETCH_PRODUCT_BY_ID = process.env.FETCH_PRODUCT_BY_ID
-const ADD_PRODUCT = process.env.ADD_PRODUCT
+const NEXT_API_URL = 'http://localhost:7000'
+
+// const FETCH_PRODUCTS = process.env.FETCH_PRODUCTS
+// const FETCH_PRODUCTS_BY_MAINCAT = process.env.FETCH_PRODUCTS_BY_MAINCAT
+// const FETCH_PRODUCT_BY_ID = process.env.FETCH_PRODUCT_BY_ID
+// const ADD_PRODUCT = process.env.ADD_PRODUCT
 
 export const fetchProductsThunk = createAsyncThunk('products/fetchProducts', async (_, { rejectWithValue }) => {
   try {
@@ -77,10 +79,65 @@ export const addProductThunk = createAsyncThunk('products/addProduct', async (fo
     })
     console.log(data)
 
+    return data.result
+  } catch (error) {
+    console.log(error)
+
+    return rejectWithValue(error.message)
+  }
+})
+
+export const updateProductThunk = createAsyncThunk('products/updateProduct', async (prop, { rejectWithValue }) => {
+  try {
+    // const { data } = await axios.post(
+    //   '/api/products/add_product/',
+    //   formData,
+    const { data } = await axios.put(`http://localhost:7000/api/products/update/${prop.id}`, prop.formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    console.log(data)
+
     return data
   } catch (error) {
     console.log(error)
 
     return rejectWithValue(error.message)
   }
+})
+
+export const removeProductThunk = createAsyncThunk('products/removeProduct', async (productId, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.delete(`/api/products/delete_product/${productId}`)
+    console.log(data)
+
+    return data
+  } catch (error) {
+    console.log(error)
+
+    return rejectWithValue(error.message)
+  }
+})
+
+export const removeProductImageThunk = createAsyncThunk(
+  'products/removeProductImage',
+  async (props, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `${NEXT_API_URL}/api/products/deleteImage/${props.id}?public_id=${props.idFileCloud}`,
+      )
+      console.log(data)
+
+      return data
+    } catch (error) {
+      console.log(error)
+
+      return rejectWithValue(error.message)
+    }
+  },
+)
+
+export const clearMessage = createAsyncThunk('products/clearMessage', async () => {
+  return null
 })

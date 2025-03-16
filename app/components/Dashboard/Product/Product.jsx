@@ -1,273 +1,152 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-// import axios from 'axios'
-// import { useRef } from 'react'
-import s from './Product.module.scss'
-import { useAppDispatch, useAppSelector, useAppStore } from '../../../redux/hooks'
-// import { fetchMainCategoryThunk } from '../../../redux/features/mainCategories/thunks'
-// import { GiDistressSignal } from 'react-icons/gi'
-import { fetchCategoryThunk } from '../../../redux/features/categories/thunks'
-import { addProductThunk, fetchProductsThunk } from '@/app/redux/features/products/thunks'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
+import { addProductThunk, updateProductThunk, removeProductThunk } from '@/app/redux/features/products/thunks'
+import { useState } from 'react'
+import { RiDeleteBin2Line } from 'react-icons/ri'
+import { IoAddCircleOutline } from 'react-icons/io5'
+import { RxUpdate } from 'react-icons/rx'
 import Image from 'next/image'
-import allSizes from '../../../sizes.json'
+import s from './Product.module.scss'
+import { ModalProduct } from '../../utils/ModalProduct/ModalProduct'
+import Loader from '../../Loader/Loader'
+
+import { useModalConfirm } from '../../hooks/useModalConfirm'
+import { ModalConfirm } from '../../utils/ModalConfirmation/ModalConfirm'
 
 export const Product = () => {
+  const products = useAppSelector(state => state.products.items)
+  const isLoading = useAppSelector(state => state.products.isLoading)
+
   const dispatch = useAppDispatch()
 
-  const mainCategories = useAppSelector(state => state.mainCategory.items)
-  const categories = useAppSelector(state => state.category.items)
+  const { isModalConfirmOpen, openConfirmModal, closeConfirmModal, handleConfirm } = useModalConfirm()
 
-  const [mainId, setMainId] = useState('')
-  const [mainSlug, setMainSlug] = useState('')
-  const [categoryId, setCategoryId] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [productData, setProductData] = useState({})
 
-  const [sizeAdd, setSizeAdd] = useState([])
-  const [sizesPrev, setSizesPrev] = useState(Object.values(allSizes))
-  const [previewImage, setPreviewImage] = useState([])
-
-  useEffect(() => {
-    if (mainCategories) {
-      setMainSlug(mainCategories[0]?.slug || '')
-      setMainId(mainCategories[0]?.id || '')
-    }
-  }, [dispatch, mainCategories])
-
-  useEffect(() => {
-    if (mainSlug) {
-      dispatch(fetchCategoryThunk(mainSlug))
-    }
-  }, [dispatch, mainSlug])
-
-  useEffect(() => {
-    if (categories) {
-      setCategoryId(categories[0]?.id || '')
-    }
-  }, [dispatch, categories])
-
-  const handleChangeMain = e => {
-    setMainId(e.target.value)
-    const mainCategory = mainCategories.find(mainCategory => mainCategory.id === e.target.value)
-    setMainSlug(mainCategory.slug)
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
   }
 
-  const handleChangeCategory = e => {
-    setCategoryId(e.target.value)
-    const category = categories.find(category => category.id === e.target.value)
-    setCategoryId(category.id)
+  const handleAddProduct = () => {
+    setIsEditing(false)
+    setProductData({
+      mainCategory: '',
+      category: '',
+      name: '',
+      description: '',
+      sizeList: [],
+      color: '',
+      quantity: '',
+      price: '',
+      productImage: [],
+    })
+    toggleModal()
   }
 
-  const handleInputChange = e => {
-    const { name, value } = e.target
-    setProduct({ ...product, [name]: value })
+  const handleEditProduct = product => {
+    setIsEditing(true)
+    setProductData(product)
+    toggleModal()
   }
 
-  const handleInputSizeChange = e => {
-    const { value } = e.target
+  const handleDeleteProduct = productId => {
+    openConfirmModal(() => {
+      dispatch(removeProductThunk(productId))
+    })
+  }
 
-    const isSelected = sizeAdd.includes(value)
-
-    if (isSelected) {
-      setSizeAdd(sizeAdd.filter(size => size !== value))
+  const handleSubmit = (id, formData) => {
+    if (isEditing) {
+      dispatch(updateProductThunk({ id: id, formData }))
     } else {
-      setSizeAdd([...sizeAdd, value])
-    }
-  }
-
-  const handleImageUpload = e => {
-    // const files = Array.from(e.target.files);
-    // setProduct({ images: e.target.files });
-    const { name, value } = e.target.files
-    setProduct({ ...product, [name]: value })
-
-    let fileObj = []
-    let fileArray = []
-
-    fileObj.push(e.target.files)
-
-    for (let i = 0; i < fileObj[0].length; i++) {
-      fileArray.push(URL.createObjectURL(fileObj[0][i]))
-      setPreviewImage(fileArray)
-    }
-    setProduct({ ...product, productImage: e.target.files })
-  }
-
-  const [product, setProduct] = useState({
-    mainCategory: mainId,
-    category: categoryId,
-    name: '',
-    description: '',
-    sizeList: sizeAdd,
-    color: '',
-    quantity: '',
-    price: '',
-    productImage: [],
-  })
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    try {
-      const { name, quantity, color, price, description, productImage } = product
-      const formData = new FormData()
-      formData.append('genderCategory', mainId)
-      formData.append('category', categoryId)
-      formData.append('name', name)
-      formData.append('quantity', quantity)
-      formData.append('sizeList', sizeAdd)
-      formData.append('color', color)
-      formData.append('price', price)
-      formData.append('description', description)
-      for (const key of Object.keys(productImage)) {
-        formData.append('image', productImage[key])
-      }
-
       dispatch(addProductThunk(formData))
-      dispatch(fetchProductsThunk())
-    } catch (error) {
-      console.log(error)
     }
   }
+
+  // Expected server HTML to contain a matching <div> in <div>. Error Component Stack
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
-    <div className="dashboard">
-      <h1 className="title">Додати товар до магазину</h1>
-      <div className="form-container">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Гендер</label>
-            <select name="mainId" value={mainId} onChange={handleChangeMain} className="form-control">
-              {mainCategories
-                ? mainCategories.map(el => (
-                    <option key={el.id} value={el.id}>
-                      {el.title}
-                    </option>
-                  ))
-                : null}
-            </select>
-          </div>
+    <>
+      <button type="button" onClick={handleAddProduct}>
+        Додати продукт
+        <span>
+          <IoAddCircleOutline />
+        </span>
+      </button>
 
-          <div className="form-group">
-            <label>Категорія</label>
-            <select name="categoryId" value={categoryId} onChange={handleChangeCategory} className="form-control">
-              {categories
-                ? categories.map(el => (
-                    <option key={el.id} value={el.id}>
-                      {el.title}
-                    </option>
-                  ))
-                : null}
-            </select>
-          </div>
+      <ModalProduct
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        onSubmit={handleSubmit}
+        productData={productData}
+        isEditing={isEditing}
+      />
 
-          <div className="form-group">
-            <label>Зображення</label>
-            <input type="file" name="productImage" onChange={handleImageUpload} className="form-control" multiple />
-          </div>
+      <ModalConfirm
+        isModalConfirmOpen={isModalConfirmOpen}
+        handleConfirm={handleConfirm}
+        closeConfirmModal={closeConfirmModal}
+      />
 
-          <div>
-            {product.productImage && (
-              <ul className={s.images_box}>
-                {previewImage.map((file, index) => (
-                  <li key={index} className={s.itemImg}>
-                    <Image src={file} alt={file} className={s.image} width={150} height={150} />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+      {isLoading && <Loader />}
 
-          <div className="form-group">
-            <label>Назва</label>
-            <input type="text" name="name" value={product.name} onChange={handleInputChange} className="form-control" />
-          </div>
-
-          <div className="form-group">
-            <label>Опис</label>
-            <input
-              type="text"
-              name="description"
-              value={product.description}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
-
-          <div className="form-group">
-            <p>Розмір</p>
-            <ul>
-              {sizesPrev
-                ? sizesPrev.map((el, index) => (
-                    <li key={index} value={product.size}>
-                      <label>{el}</label>
-                      <input
-                        type="checkbox"
-                        name="size"
-                        value={el}
-                        onChange={handleInputSizeChange}
-                        className="form-control"
+      {products && (
+        <div>
+          <table className="table productTable">
+            <thead>
+              <tr>
+                <th scope="col">Фото</th>
+                <th scope="col">Назва</th>
+                <th scope="col">Ціна</th>
+                <th scope="col">Оновити</th>
+                <th scope="col">Видалити</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products &&
+                products.map(product => (
+                  <tr key={product.id}>
+                    <th scope="row">
+                      <Image
+                        className={s.image}
+                        src={product?.image[0]?.url}
+                        alt="product"
+                        width="20"
+                        height="20"
+                        sizes="100vw"
+                        priority={true}
                       />
-                    </li>
-                  ))
-                : null}
-            </ul>
-          </div>
-
-          <div className="form-group">
-            <label>Колір</label>
-            <input
-              type="text"
-              name="color"
-              value={product.color}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Кількість</label>
-            <input
-              type="text"
-              name="quantity"
-              value={product.quantity}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Ціна</label>
-            <input
-              type="text"
-              name="price"
-              value={product.price}
-              onChange={handleInputChange}
-              className="form-control"
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Додати товар
-          </button>
-        </form>
-      </div>
-
-      {/* Таблиця для відображення доданих товарів */}
-      {/* <table className="table productTable">
-        <thead>
-          <ul>
-            <p>Назва</p>
-            <p>Опис</p>
-            <p>Розмір</p>
-            <p>Колір</p>
-            <p>Кількість</p>
-            <p>Ціна</p>
-            <p>Зображення</p>
-          </ul>
-        </thead>
-        <tbody>
-          {/* Додайте код для відображення доданих товарів у таблиці */}
-      {/* </tbody>
-      </table> */}
-    </div>
+                    </th>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>
+                      <button type="button" className={s.button} onClick={() => handleEditProduct(product)}>
+                        <RxUpdate />
+                      </button>
+                    </td>
+                    <td>
+                      <button type="button" className={s.button} onClick={() => handleDeleteProduct(product.id)}>
+                        <RiDeleteBin2Line />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
   )
 }

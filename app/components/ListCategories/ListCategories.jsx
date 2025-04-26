@@ -4,18 +4,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAppStore, useAppSelector } from '@/app/redux/hooks'
 import s from './ListCategories.module.scss'
-import { fetchCategoryThunk } from '@/app/redux/features/categories/thunks'
+import { fetchCategoryByMainSlugThunk } from '@/app/redux/features/categories/thunks'
 import { useRef } from 'react'
 
 const ListCategories = ({ mainSlug }) => {
   const store = useAppStore()
   const initialized = useRef(false)
   if (!initialized.current) {
-    store.dispatch(fetchCategoryThunk(mainSlug))
+    store.dispatch(fetchCategoryByMainSlugThunk(mainSlug))
     initialized.current = true
   }
 
-  const categories = useAppSelector(state => state.category.items)
+  const categories = useAppSelector(state => state.categoryByMainSlug.items)
 
   return (
     <div className={s.category}>

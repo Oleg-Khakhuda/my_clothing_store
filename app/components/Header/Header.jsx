@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import React from "react";
-import s from "./Header.module.scss";
-import Logo from "../Logo/Logo";
-import Sidebar from "../Sidebar/Sidebar";
-import Search from "../Search/Search";
-import Basket from "../Basket/Basket";
-import Link from "next/link";
-import { SlHeart } from "react-icons/sl";
+import React from 'react'
+import s from './Header.module.scss'
+import Logo from '../Logo/Logo'
+import Sidebar from '../Sidebar/Sidebar'
+import Search from '../Search/Search'
+import Basket from '../Basket/Basket'
+import Link from 'next/link'
+import { SlHeart } from 'react-icons/sl'
 
 const Header = () => {
   return (
@@ -30,7 +30,7 @@ const Header = () => {
         <Basket />
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

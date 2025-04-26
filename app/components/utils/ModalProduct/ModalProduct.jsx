@@ -1,23 +1,21 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-
-import s from './ModalProduct.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
-
 import { fetchCategoryThunk } from '../../../redux/features/categories/thunks'
 import { removeProductImageThunk } from '../../../redux/features/products/thunks'
 import Image from 'next/image'
 import allSizes from '../../../sizes.json'
 import { useModalConfirm } from '../../hooks/useModalConfirm'
 import { ModalConfirm } from '../ModalConfirmation/ModalConfirm'
+import s from './ModalProduct.module.scss'
 
 export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing }) => {
   const dispatch = useAppDispatch()
 
   const { isModalConfirmOpen, openConfirmModal, closeConfirmModal, handleConfirm } = useModalConfirm()
 
-  const [formProductData, setFormProductData] = useState({})
+  const [formProductData, setFormProductData] = useState(productData)
 
   const mainCategories = useAppSelector(state => state.mainCategory.items)
   const categories = useAppSelector(state => state.category.items)
@@ -29,7 +27,7 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
   const [previewImage, setPreviewImage] = useState([])
 
   useEffect(() => {
-    if (mainCategories) {
+    if (mainCategories.length > 0) {
       setMainSlug(productData?.genderCategory?.slug || mainCategories[0]?.slug)
       setMainId(productData?.genderCategory?.id || mainCategories[0]?.id)
     }
@@ -42,7 +40,7 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
   }, [dispatch, mainSlug])
 
   useEffect(() => {
-    if (categories) {
+    if (categories.length > 0) {
       setCategoryId(productData?.category?.id || categories[0]?.id)
     }
   }, [dispatch, categories, productData?.category?.id])
@@ -161,8 +159,6 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
     }
 
     onSubmit(id, formData)
-    console.log('formProductData', formProductData)
-
     setFormProductData({})
     onClose()
   }
@@ -217,26 +213,26 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
               <input type="file" name="productImage" onChange={handleImageUpload} className={s.form_control} multiple />
             </div>
 
-            <div>
-              {previewImage.length > 0 && (
-                <div>
-                  <p>Нові зображення</p>
-                  <ul className={s.images_box}>
-                    {previewImage.map((file, index) => (
-                      <li key={index} className={s.itemImg}>
-                        <Image src={file} alt={file} className={s.image} width={50} height={50} />
-                        <button type="button" onClick={() => handlePreviewImageDelete(file, index)}>
-                          Видалити зображення
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+            {/* <div> */}
+            {previewImage.length > 0 && (
+              <div>
+                <p>Нові зображення</p>
+                <ul className={s.images_box}>
+                  {previewImage.map((file, index) => (
+                    <li key={index} className={s.itemImg}>
+                      <Image src={file} alt={file} className={s.image} width={50} height={50} />
+                      <button type="button" onClick={() => handlePreviewImageDelete(file, index)}>
+                        Видалити зображення
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* </div> */}
 
             <div>
-              {productData && (
+              {productData.length > 0 && (
                 <div>
                   <p>Завантажені зображення</p>
                   <ul className={s.images_box}>

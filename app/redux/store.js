@@ -6,13 +6,14 @@ import {
   productsReducer,
   productByIdReducer,
 } from './features/products/slices'
-import { categoryReducer } from './features/categories/slices'
+import { categoryReducer, categoryByMainSlugReducer } from './features/categories/slices'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       mainCategory: mainCategoryReducer,
       category: categoryReducer,
+      categoryByMainSlug: categoryByMainSlugReducer,
       products: productsReducer,
       productsByMainCat: productsByMainCatReducer,
       productsByCat: productsByCatReducer,

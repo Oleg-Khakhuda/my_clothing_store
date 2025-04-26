@@ -97,7 +97,6 @@ export const updateProductThunk = createAsyncThunk('products/updateProduct', asy
         'Content-Type': 'multipart/form-data',
       },
     })
-    console.log(data)
 
     return data
   } catch (error) {
@@ -137,7 +136,3 @@ export const removeProductImageThunk = createAsyncThunk(
     }
   },
 )
-
-export const clearMessage = createAsyncThunk('products/clearMessage', async () => {
-  return null
-})

@@ -11,27 +11,60 @@ const ModalContext = createContext()
 export const useModalStatus = () => useContext(ModalContext)
 
 export const StoreProviderModalStatus = ({ children }) => {
-  const message = useAppSelector(state => state.products.message)
-  const error = useAppSelector(state => state.products.error)
+  // const message = useAppSelector(state => state.products.message)
+  // const error = useAppSelector(state => state.products.error)
+  const productMessage = useAppSelector(state => state.products.message)
+  const productError = useAppSelector(state => state.products.error)
+  const categoryMessage = useAppSelector(state => state.category.message)
+  const categoryError = useAppSelector(state => state.category.error)
+  const mainCategoryMessage = useAppSelector(state => state.mainCategory.message)
+  const mainCategoryError = useAppSelector(state => state.mainCategory.error)
+
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  // useEffect(() => {
+  //   if (message || error) {
+  //     setIsOpen(true)
+  //     const timer = setTimeout(() => {
+  //       setIsOpen(false)
+  //       // dispatch(clearMessage())
+  //     }, 3000)
+
+  //     return () => clearTimeout(timer)
+  //   }
+  // }, [dispatch, message, error])
 
   useEffect(() => {
-    if (message || error) {
+    if (
+      productMessage ||
+      productError ||
+      categoryMessage ||
+      categoryError ||
+      mainCategoryMessage ||
+      mainCategoryError
+    ) {
+      setMessage(productMessage || categoryMessage || mainCategoryMessage)
+      setError(productError || categoryError || mainCategoryError)
+
       setIsOpen(true)
       const timer = setTimeout(() => {
         setIsOpen(false)
-        dispatch(clearMessage())
+        setMessage('')
+        setError('')
       }, 3000)
 
       return () => clearTimeout(timer)
     }
-  }, [message, dispatch, error])
+  }, [dispatch, productMessage, productError, categoryMessage, categoryError, mainCategoryMessage, mainCategoryError])
 
   const handleClose = useCallback(() => {
     setIsOpen(false)
-    dispatch(clearMessage())
-  }, [dispatch])
+    setMessage('')
+    setError('')
+  }, [])
 
   useEffect(() => {
     const handleEsc = event => {

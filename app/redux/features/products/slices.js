@@ -8,7 +8,6 @@ import {
   updateProductThunk,
   removeProductThunk,
   removeProductImageThunk,
-  clearMessage,
 } from './thunks'
 
 const productsSlice = createSlice({
@@ -89,10 +88,6 @@ const productsSlice = createSlice({
       .addCase(removeProductImageThunk.rejected, (state, action) => {
         state.error = action.payload.message
         state.isLoading = false
-      })
-
-      .addCase(clearMessage.fulfilled, (state, action) => {
-        state.message = null
       })
   },
 })

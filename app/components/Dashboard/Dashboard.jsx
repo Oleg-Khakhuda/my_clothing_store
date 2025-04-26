@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Product } from './Product/Product'
 import { MainCategory } from './MainCategory/MainCategory'
 import { Category } from './Category/Category'
+import Link from 'next/link'
 
 export const Dashboard = () => {
   const [page, setPage] = useState('product')

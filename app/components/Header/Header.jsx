@@ -5,7 +5,7 @@ import s from './Header.module.scss'
 import Logo from '../Logo/Logo'
 import Sidebar from '../Sidebar/Sidebar'
 import Search from '../Search/Search'
-import Basket from '../Basket/Basket'
+import Basket from '../Cart/Cart'
 import Link from 'next/link'
 import { SlHeart } from 'react-icons/sl'
 

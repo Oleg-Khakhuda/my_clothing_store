@@ -17,9 +17,6 @@ const Product = ({ productId }) => {
     initialized.current = true
   }
 
-  const cart = useAppSelector(state => state.cart.items)
-  console.log('cart', cart)
-
   const dispatch = useAppDispatch()
 
   const product = useAppSelector(state => state.productById.items)
@@ -58,7 +55,11 @@ const Product = ({ productId }) => {
   }
 
   const handlAddToCart = e => {
-    console.log(dataProduct)
+    e.preventDefault()
+    if (!dataProduct.size) {
+      alert('Виберіть розмір')
+      return
+    }
     dispatch(addToCart(dataProduct))
     // const formData = new FormData()
     // formData.append('productId', formProduct.productId)

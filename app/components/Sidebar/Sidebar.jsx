@@ -7,14 +7,24 @@ import { AiOutlineClose } from 'react-icons/ai'
 import s from './Sidebar.module.scss'
 import Link from 'next/link'
 import Logo from '../Logo/Logo'
+import { useAppDispatch, useAppSelector } from '@/app/redux/hooks'
+import { logoutThunk } from '@/app/redux/features/auth/thunks'
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(false)
-  const isAuth = true
-  const isAuthAdmin = 'administrator'
+  const isAuth = useAppSelector(state => state.auth.isAuth)
+  const isAuthAdmin = useAppSelector(state => state.auth.user?.role)
+
+  const dispatch = useAppDispatch()
+
   const toggleSidebar = () => {
     setToggle(!toggle)
   }
+
+  const handleClick = () => {
+    dispatch(logoutThunk())
+  }
+
   return (
     <div className={s.sidebar_block}>
       <button type="button" className={s.sidebar_icon} onClick={toggleSidebar}>
@@ -42,16 +52,13 @@ const Sidebar = () => {
                     Панель керування
                   </Link>
                 ) : (
-                  <Link onClick={toggleSidebar} href={'./dashboard'} rel="preload">
+                  <Link onClick={toggleSidebar} href={'./profile'} rel="preload">
                     Особистий кабінет
                   </Link>
                 )}
               </li>
               <li>
-                <button
-                  type="button"
-                  // onClick={handleClick}
-                >
+                <button type="button" onClick={handleClick}>
                   Вийти
                 </button>
               </li>
@@ -64,7 +71,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link onClick={toggleSidebar} href={'./registration'} rel="preload">
+                <Link onClick={toggleSidebar} href={'./register'} rel="preload">
                   Реєстрація
                 </Link>
               </li>

@@ -2,8 +2,9 @@
 
 import { useState, useEffect, createContext, useContext, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
-import { clearMessage } from './redux/features/products/thunks'
+import { clearProductMessage } from './redux/features/products/thunks'
 import { ModalStatus } from './components/utils/ModalStatus/ModalStatus'
+import { clearCartMessage } from './redux/features/cart/slices'
 
 const ModalContext = createContext()
 
@@ -19,6 +20,8 @@ export const StoreProviderModalStatus = ({ children }) => {
   const categoryError = useAppSelector(state => state.category.error)
   const mainCategoryMessage = useAppSelector(state => state.mainCategory.message)
   const mainCategoryError = useAppSelector(state => state.mainCategory.error)
+  const cartMessage = useAppSelector(state => state.cart.message)
+  const cartError = useAppSelector(state => state.cart.error)
 
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false)
@@ -44,21 +47,34 @@ export const StoreProviderModalStatus = ({ children }) => {
       categoryMessage ||
       categoryError ||
       mainCategoryMessage ||
-      mainCategoryError
+      mainCategoryError ||
+      cartMessage ||
+      cartError
     ) {
-      setMessage(productMessage || categoryMessage || mainCategoryMessage)
-      setError(productError || categoryError || mainCategoryError)
+      setMessage(productMessage || categoryMessage || mainCategoryMessage || cartMessage)
+      setError(productError || categoryError || mainCategoryError || cartError)
 
       setIsOpen(true)
       const timer = setTimeout(() => {
         setIsOpen(false)
+        dispatch(clearCartMessage())
         setMessage('')
         setError('')
       }, 3000)
 
       return () => clearTimeout(timer)
     }
-  }, [dispatch, productMessage, productError, categoryMessage, categoryError, mainCategoryMessage, mainCategoryError])
+  }, [
+    dispatch,
+    productMessage,
+    productError,
+    categoryMessage,
+    categoryError,
+    mainCategoryMessage,
+    mainCategoryError,
+    cartMessage,
+    cartError,
+  ])
 
   const handleClose = useCallback(() => {
     setIsOpen(false)

@@ -22,12 +22,11 @@ const mainCategorySlice = createSlice({
       })
       .addCase(fetchMainCategoryThunk.fulfilled, (state, action) => {
         state.isLoading = false
-
         state.items = action.payload
       })
       .addCase(fetchMainCategoryThunk.rejected, (state, action) => {
         state.isLoading = false
-        state.error = action.payload
+        state.error = action.payload.message
       })
 
       .addCase(addMainCategoryThunk.pending, (state, action) => {
@@ -36,7 +35,6 @@ const mainCategorySlice = createSlice({
       .addCase(addMainCategoryThunk.fulfilled, (state, action) => {
         state.isLoading = false
         state.items = [...state.items, ...action.payload.result]
-
         state.message = action.payload.message
       })
       .addCase(addMainCategoryThunk.rejected, (state, action) => {
@@ -52,7 +50,6 @@ const mainCategorySlice = createSlice({
         state.items = state.items.map(item =>
           item.id === action.payload.updateCategory.id ? action.payload.updateCategory : item,
         )
-
         state.message = action.payload.message
       })
       .addCase(updateMainCategoryThunk.rejected, (state, action) => {
@@ -66,7 +63,6 @@ const mainCategorySlice = createSlice({
       .addCase(removeMainCategoryThunk.fulfilled, (state, action) => {
         state.items = state.items.filter(el => el.id !== action.payload.category.id)
         state.isLoading = false
-
         state.message = action.payload.message
       })
       .addCase(removeMainCategoryThunk.rejected, (state, action) => {

@@ -48,10 +48,10 @@ function Register() {
       if (res.error) {
         console.log('error', res.error)
       } else {
+        reset()
         router.push('/')
       }
     })
-    reset()
   }
 
   const reset = () => {
@@ -95,8 +95,6 @@ function Register() {
           Зареєструватися
         </button>
       </form>
-
-      {/* {isAuth && <Navigate to="/contacts" />} */}
     </>
   )
 }

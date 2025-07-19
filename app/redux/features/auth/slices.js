@@ -4,7 +4,7 @@ import { registerThunk, loginThunk, currentThunk, logoutThunk } from './thunks'
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: { firstName: '', lastName: '', phone: '', email: '', role: '' },
+    user: { firstName: '', lastName: '', phone: '', email: '', avatarUrl: '', role: '', id: '' },
     token: '',
     error: null,
     isLoading: false,
@@ -18,8 +18,6 @@ const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(registerThunk.fulfilled, (state, action) => {
-        console.log(action.payload.data)
-
         state.isLoading = false
         state.user = action.payload.data
         state.token = action.payload.data.token
@@ -35,7 +33,6 @@ const authSlice = createSlice({
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.user = action.payload.data
         state.token = action.payload.data.token
         state.isAuth = true
       })
@@ -49,12 +46,21 @@ const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(currentThunk.fulfilled, (state, action) => {
+        if (action.payload === undefined) {
+          state.isLoading = false
+          state.isAuth = false
+          state.user = { firstName: '', lastName: '', phone: '', email: '', avatarUrl: '', role: '', id: '' }
+          state.token = ''
+        }
         state.isLoading = false
-        state.user = action.payload.data
+        state.user = action.payload?.data
       })
       .addCase(currentThunk.rejected, (state, action) => {
         state.isLoading = false
-        state.error = action.payload.data
+        state.error = action.payload?.error
+        state.user = { firstName: '', lastName: '', phone: '', email: '', avatarUrl: '', role: '', id: '' }
+        state.token = ''
+        state.isAuth = false
       })
 
       .addCase(logoutThunk.pending, (state, action) => {
@@ -62,7 +68,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutThunk.fulfilled, (state, action) => {
         state.isLoading = false
-        state.user = { firstName: '', lastName: '', phone: '', email: '', role: '' }
+        state.user = { firstName: '', lastName: '', phone: '', email: '', avatarUrl: '', role: '', id: '' }
         state.token = ''
         state.isAuth = false
       })

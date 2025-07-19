@@ -1,10 +1,9 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import Image from 'next/image'
 import s from '../Product/Product.module.scss'
-import { fetchProductByIdThunk, removeProductThunk } from '@/app/redux/features/products/thunks'
+import { fetchProductByIdThunk } from '@/app/redux/features/products/thunks'
 import { GiShoppingCart } from 'react-icons/gi'
 import { useAppSelector, useAppStore, useAppDispatch } from '@/app/redux/hooks'
 import { addToCart } from '@/app/redux/features/cart/slices'
@@ -56,30 +55,12 @@ const Product = ({ productId }) => {
 
   const handlAddToCart = e => {
     e.preventDefault()
-    if (!dataProduct.size) {
-      alert('Виберіть розмір')
-      return
-    }
     dispatch(addToCart(dataProduct))
-    // const formData = new FormData()
-    // formData.append('productId', formProduct.productId)
-    // formData.append('name', formProduct.name)
-    // formData.append('article', formProduct.article)
-    // formData.append('price', formProduct.price)
-    // formData.append('color', formProduct.color)
-    // formData.append('image', formProduct.image)
-    // formData.append('size', formProduct.size)
-    // dispatch(addProductToBasketThunk(formData))
   }
-
-  // const handleUpdateClick = e => {}
-
-  // const handleDeleteClick = () => {
-  //   dispatch(removeProductThunk(productId))
-  // }
 
   return (
     <>
+      <div></div>
       {product ? (
         <>
           <div className={s.card}>
@@ -125,14 +106,6 @@ const Product = ({ productId }) => {
               <GiShoppingCart />
               <p>В КОШИК</p>
             </button>
-            {/* <button type="button" className={s.button} onClick={handleUpdateClick}>
-              <GiShoppingCart />
-              <p>UPDATE</p>
-            </button>
-            <button type="button" className={s.button} onClick={handleDeleteClick}>
-              <GiShoppingCart />
-              <p>DELETE</p>
-            </button> */}
           </div>
         </>
       ) : (

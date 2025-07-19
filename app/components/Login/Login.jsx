@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '@/app/redux/hooks'
-import { currentThunk, loginThunk } from '../../redux/features/auth/thunks'
+import { useAppDispatch } from '@/app/redux/hooks'
+import { loginThunk } from '../../redux/features/auth/thunks'
 
 import { useRouter } from 'next/navigation'
 import s from './Login.module.scss'
@@ -35,7 +35,6 @@ function Login() {
       if (res.error) {
         console.log('error', res.error)
       } else {
-        dispatch(currentThunk())
         router.push('/')
       }
     })

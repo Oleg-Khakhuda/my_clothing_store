@@ -12,6 +12,7 @@ const categorySlice = createSlice({
   initialState: {
     items: [],
     error: null,
+    message: null,
     isLoading: false,
   },
   reducers: {},
@@ -26,7 +27,7 @@ const categorySlice = createSlice({
       })
       .addCase(fetchCategoryThunk.rejected, (state, action) => {
         state.isLoading = false
-        state.error = action.payload
+        state.error = action.payload.message
       })
 
       .addCase(updateCategoryThunk.pending, (state, action) => {

@@ -26,6 +26,7 @@ export const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [productData, setProductData] = useState({})
+  const [confirmMessage, setConfirmMessage] = useState('')
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen)
@@ -53,9 +54,11 @@ export const Product = () => {
     toggleModal()
   }
 
-  const handleDeleteProduct = productId => {
+  const handleDeleteProduct = (productId, name) => {
+    setConfirmMessage(`Ви впевнені, що хочете видалити ${name}?`)
     openConfirmModal(() => {
       dispatch(removeProductThunk(productId))
+      setConfirmMessage('')
     })
   }
 
@@ -98,13 +101,14 @@ export const Product = () => {
         isModalConfirmOpen={isModalConfirmOpen}
         handleConfirm={handleConfirm}
         closeConfirmModal={closeConfirmModal}
+        message={confirmMessage}
       />
 
       {isLoading && <Loader />}
 
       {products && (
         <div>
-          <table className="table productTable">
+          <table className={s.table_productTable}>
             <thead>
               <tr>
                 <th scope="col">Фото</th>
@@ -137,7 +141,11 @@ export const Product = () => {
                       </button>
                     </td>
                     <td>
-                      <button type="button" className={s.button} onClick={() => handleDeleteProduct(product.id)}>
+                      <button
+                        type="button"
+                        className={s.button}
+                        onClick={() => handleDeleteProduct(product.id, product.name)}
+                      >
                         <RiDeleteBin2Line />
                       </button>
                     </td>

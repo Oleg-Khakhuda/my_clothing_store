@@ -18,6 +18,7 @@ export default function StoreProvider({ children }) {
     storeRef.current.dispatch(fetchMainCategoryThunk())
     storeRef.current.dispatch(fetchProductsThunk())
   }
+
   if (!persistorRef.current) {
     persistorRef.current = persistStore(storeRef.current)
   }

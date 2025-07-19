@@ -8,25 +8,50 @@ import { incrementQuantity, decrementQuantity, setQuantity } from '@/app/redux/f
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks'
 import s from './Cart.module.scss'
 import DeliverySelection from '../components/DeliverySelection/DeliverySelection'
+import axios from 'axios'
+import { GiShoppingCart } from 'react-icons/gi'
+import { removeFromCart } from '../redux/features/cart/slices'
+import { useModalConfirm } from '../components/hooks/useModalConfirm'
+import { ModalConfirm } from '../components/utils/ModalConfirmation/ModalConfirm'
 
 const Cart = () => {
   const [order, setOrder] = useState({
-    firstame: '',
-    lastname: '',
-    phone: '',
-    email: '',
+    user: {
+      firstame: '',
+      lastname: '',
+      phone: '',
+      email: '',
+    },
     products: [],
+    address: { provider: '', region: '', city: '', department: '' },
     totalPrice: 0,
     totalQuantity: 0,
-    address: { provider: '', region: '', city: '', department: '' },
   })
+
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+
   const [provider, setProvider] = useState('')
   const [region, setRegion] = useState('')
   const [city, setCity] = useState('')
   const [department, setDepartment] = useState('')
 
+  const [disabled, setDisabled] = useState(true)
+  useEffect(() => {
+    if (firstname && lastname && phone && provider && region && city && department) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+  }, [firstname, lastname, phone, provider, region, city, department])
+
+  const { isModalConfirmOpen, openConfirmModal, closeConfirmModal, handleConfirm } = useModalConfirm()
+  const [confirmMessage, setConfirmMessage] = useState('')
+
   const cart = useAppSelector(state => state.cart.items)
-  console.log(cart)
+  const user = useAppSelector(state => state.auth.user)
 
   const dispatch = useAppDispatch()
 
@@ -54,17 +79,32 @@ const Cart = () => {
   }
 
   const handleDeliverySelected = deliveryInfo => {
-    console.log('Вибрана доставка:', deliveryInfo)
-    // Тут можна зберегти інформацію про доставку в стані або відправити на сервер
     setProvider(deliveryInfo.provider)
     setRegion(deliveryInfo.region)
     setCity(deliveryInfo.city)
     setDepartment(deliveryInfo.department)
   }
 
+  const handleDeleteClick = (productId, name) => {
+    const product = cart.find(item => item.productId === productId)
+    if (product) {
+      setConfirmMessage(`Ви впевнені, що хочете видалити "${name}" з кошика?`)
+      openConfirmModal(() => {
+        dispatch(removeFromCart(productId))
+        setConfirmMessage('')
+      })
+    }
+  }
+
   useEffect(() => {
     setOrder(prev => ({
       ...prev,
+      user: {
+        firstName: firstname,
+        lastName: lastname,
+        phone: phone,
+        email: email,
+      },
       products: cart.map(item => ({
         productId: item.productId,
         size: item.size,
@@ -84,21 +124,65 @@ const Cart = () => {
         department: department,
       },
     }))
-  }, [cart, city, department, provider, region, totalPrice, totalQuantity])
+  }, [
+    cart,
+    city,
+    department,
+    email,
+    firstname,
+    lastname,
+    order.email,
+    order.firstame,
+    order.lastname,
+    order.phone,
+    phone,
+    provider,
+    region,
+    totalPrice,
+    totalQuantity,
+  ])
+
+  const data = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:7000/api/orders/',
+        { ...order, userId: user.id },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      console.log(response)
+    } catch (error) {
+      console.error('Error creating order:', error)
+    }
+  }
 
   const handleSubmit = e => {
     e.preventDefault()
     console.log('Замовлення:', order)
+    data()
   }
 
   return (
     <>
       <div>
+        <ModalConfirm
+          isModalConfirmOpen={isModalConfirmOpen}
+          handleConfirm={handleConfirm}
+          closeConfirmModal={closeConfirmModal}
+          message={confirmMessage}
+        />
+      </div>
+
+      <div>
         <h1>Кошик</h1>
+
         <div>
           <ul>
             {cart.map((item, index) => (
-              <li key={index}>
+              <li key={item.productId + item.size} className={s.card}>
                 <Link href={'/'} rel="preload">
                   <Image src={item.image} alt={item.name} width={100} height={100} className={s.img} priority />
                 </Link>
@@ -109,7 +193,6 @@ const Cart = () => {
                 <p>Ціна: {item.price * item.quantity} ₴</p>
 
                 <div>
-                  {/* <label for="input">Number of tentacles (1-10):</label>- */}
                   <button
                     type="button"
                     onClick={handleDecrement}
@@ -120,8 +203,8 @@ const Cart = () => {
                   </button>
                   <input
                     type="number"
-                    // min="1"
-                    // max="10"
+                    min="1"
+                    max="10"
                     className={s.input}
                     value={item.quantity}
                     id="input"
@@ -129,7 +212,6 @@ const Cart = () => {
                     name="input"
                     data-size={item.size}
                     data-product-id={item.productId}
-                    // onChange={handleChangeInput}
                   />
                   <button
                     type="button"
@@ -138,6 +220,14 @@ const Cart = () => {
                     data-size={item.size}
                   >
                     +
+                  </button>
+                  <button
+                    type="button"
+                    className={s.button}
+                    onClick={() => handleDeleteClick(item.productId, item.name)}
+                  >
+                    <GiShoppingCart />
+                    <p>DELETE</p>
                   </button>
                 </div>
               </li>
@@ -152,15 +242,50 @@ const Cart = () => {
             <Link href={'/'} rel="preload" className={s.btn}>
               Continue Shopping
             </Link> */}
+            <div>
+              <label htmlFor="firstname">Ім'я</label>
+              <input
+                type="text"
+                id="firstname"
+                value={firstname}
+                onChange={e => setFirstname(e.target.value)}
+                placeholder="Ім'я"
+              />
+              <label htmlFor="lastname">Призвище</label>
+              <input
+                type="text"
+                id="lastname"
+                value={lastname}
+                onChange={e => setLastname(e.target.value)}
+                placeholder="Призвище"
+              />
+              <label htmlFor="phone">Телефон</label>
+              <input
+                type="text"
+                id="phone"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="Телефон"
+              />
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="Email"
+              />
+            </div>
           </div>
         </div>
+
+        <div>
+          <DeliverySelection onDeliverySelected={handleDeliverySelected} />
+        </div>
+        <button disabled={disabled} type="submit" className={s.btn} onClick={handleSubmit}>
+          Оформити замовлення
+        </button>
       </div>
-      <div>
-        <DeliverySelection onDeliverySelected={handleDeliverySelected} />
-      </div>
-      <button type="submit" className={s.btn} onClick={handleSubmit}>
-        Оформити замовлення
-      </button>
     </>
   )
 }

@@ -13,8 +13,9 @@ import { logoutThunk } from '@/app/redux/features/auth/thunks'
 const Sidebar = () => {
   const [toggle, setToggle] = useState(false)
   const isAuth = useAppSelector(state => state.auth.isAuth)
+  // console.log('isAuth', isAuth)
   const isAuthAdmin = useAppSelector(state => state.auth.user?.role)
-
+  // console.log('isAuthAdmin', isAuthAdmin)
   const dispatch = useAppDispatch()
 
   const toggleSidebar = () => {

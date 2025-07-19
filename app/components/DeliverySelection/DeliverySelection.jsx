@@ -39,7 +39,15 @@ const DeliverySelection = ({ onDeliverySelected }) => {
           )
         } else {
           // API Укрпошти для отримання областей
-          const response = await fetch('https://ukrposhta.ua/address-classifier/api/regions')
+          const response = await fetch('https://ukrposhta.ua/address-classifier/api/regions', {
+            method: 'GET',
+            headers: {
+              'Access-Control-Allow-Headers': 'Content-Type',
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PATCH',
+            },
+          })
           data = await response.json()
           setRegions(
             data.map(region => ({
@@ -194,6 +202,12 @@ const DeliverySelection = ({ onDeliverySelected }) => {
     onDeliverySelected,
   ])
 
+  const selectedRegionChange = e => {
+    setSelectedRegion(e.target.value)
+    setCities([])
+    setDepartments([])
+  }
+
   return (
     <div className="delivery-selection">
       <h3>Вибір доставки</h3>
@@ -210,7 +224,7 @@ const DeliverySelection = ({ onDeliverySelected }) => {
           Нова Пошта
         </label>
 
-        <label>
+        {/* <label>
           <input
             type="radio"
             name="deliveryProvider"
@@ -219,7 +233,7 @@ const DeliverySelection = ({ onDeliverySelected }) => {
             onChange={() => setSelectedProvider('ukrPoshta')}
           />
           Укрпошта
-        </label>
+        </label> */}
       </div>
 
       {isLoading && <p>Завантаження даних...</p>}
@@ -228,11 +242,7 @@ const DeliverySelection = ({ onDeliverySelected }) => {
       <div className="delivery-fields">
         <div className="form-group">
           <label>Область:</label>
-          <select
-            value={selectedRegion}
-            onChange={e => setSelectedRegion(e.target.value)}
-            disabled={!regions.length || isLoading}
-          >
+          <select value={selectedRegion} onChange={selectedRegionChange} disabled={!regions.length || isLoading}>
             <option value="">Виберіть область</option>
             {regions.map(region => (
               <option key={region.id} value={region.id}>

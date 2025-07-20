@@ -6,7 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { makeStore } from '../app/redux/store'
 import { persistStore } from 'redux-persist'
 import { fetchMainCategoryThunk } from './redux/features/mainCategories/thunks'
-import { fetchProductsThunk } from './redux/features/products/thunks'
+import { fetchNewProductsThunk } from './redux/features/products/thunks'
 
 export default function StoreProvider({ children }) {
   const storeRef = useRef(null)
@@ -16,7 +16,7 @@ export default function StoreProvider({ children }) {
     storeRef.current = makeStore()
 
     storeRef.current.dispatch(fetchMainCategoryThunk())
-    storeRef.current.dispatch(fetchProductsThunk())
+    storeRef.current.dispatch(fetchNewProductsThunk())
   }
 
   if (!persistorRef.current) {

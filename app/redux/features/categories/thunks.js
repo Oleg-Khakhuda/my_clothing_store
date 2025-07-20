@@ -1,12 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const FETCH_CATEGORY = process.env.FETCH_CATEGORY
-// axios.defaults.baseURL = process.env.NEXT_API_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_NEXT_API_URL
 
 export const fetchCategoryThunk = createAsyncThunk('category/fetchCategory', async (_, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get(`http://localhost:7000/api/categories/`)
+    const { data } = await axios.get(`/api/categories/`)
 
     return data.categories
   } catch (error) {
@@ -20,8 +19,7 @@ export const fetchCategoryByMainSlugThunk = createAsyncThunk(
   'category/fetchCategoryByMainSlug',
   async (slug, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/categories/${slug}`)
-
+      const { data } = await axios.get(`/api/categories/slug/${slug}`)
       return data.result.items
     } catch (error) {
       console.log(error)
@@ -33,7 +31,7 @@ export const fetchCategoryByMainSlugThunk = createAsyncThunk(
 
 export const addCategoryThunk = createAsyncThunk('category/addCategory', async (categoryData, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post('http://localhost:7000/api/categories', categoryData)
+    const { data } = await axios.post('/api/categories', categoryData)
 
     return data
   } catch (error) {
@@ -45,7 +43,7 @@ export const updateCategoryThunk = createAsyncThunk(
   'category/updateCategory',
   async ({ id, formData }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`http://localhost:7000/api/categories/update/${id}`, formData, {
+      const { data } = await axios.put(`/api/categories/update/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -60,7 +58,7 @@ export const updateCategoryThunk = createAsyncThunk(
 
 export const removeCategoryThunk = createAsyncThunk('category/removeCategory', async (id, { rejectWithValue }) => {
   try {
-    const { data } = await axios.delete(`http://localhost:7000/api/categories/delete/${id}`)
+    const { data } = await axios.delete(`/api/categories/delete/${id}`)
 
     return data
   } catch (error) {

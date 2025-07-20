@@ -1,15 +1,21 @@
+@import '../../sass-partial/mixins';
+
 .header {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
-
   color: #212121;
   width: 100%;
   height: 64px;
   left: 0;
   top: 0;
-  border-bottom: 0.5px solid #a9a9a9;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-bottom: 1px solid var(--accent-color);
+
   z-index: 100;
 }
 
@@ -18,7 +24,7 @@
   align-items: center;
   margin-left: 16px;
 
-  @media screen and (min-width: 768px) {
+  @include respond(md-min) {
     margin-left: 20px;
   }
 }
@@ -28,7 +34,7 @@
   align-items: center;
   margin-right: 16px;
 
-  @media screen and (min-width: 768px) {
+  @include respond(md-min) {
     margin-right: 20px;
   }
 }
@@ -40,11 +46,11 @@
   background-color: #d2d2d2;
   margin-right: 16px;
 
-  @media screen and (max-width: 767.98px) {
+  @include respond(md-max) {
     display: none;
   }
 
-  @media screen and (min-width: 768px) {
+  @include respond(md-min) {
     margin-right: 20px;
   }
 }
@@ -57,7 +63,7 @@
   position: relative;
   margin-right: 16px;
 
-  @media screen and (min-width: 768px) {
+  @include respond(md-min) {
     margin-right: 20px;
   }
 }

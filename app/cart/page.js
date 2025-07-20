@@ -146,7 +146,7 @@ const Cart = () => {
     try {
       const response = await axios.post(
         'http://localhost:7000/api/orders/',
-        { ...order, userId: user.id },
+        { ...order, userId: user?.id },
         {
           headers: {
             'Content-Type': 'application/json',

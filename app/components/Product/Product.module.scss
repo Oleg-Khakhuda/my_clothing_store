@@ -1,7 +1,6 @@
 .card {
-  position: relative;
-  margin-bottom: 50px;
-  // z-index: -1;
+  margin-top: 7px;
+  margin-bottom: 15px;
 }
 
 .img {
@@ -10,29 +9,39 @@
 }
 
 .desc_block {
-  padding: 20px;
+  padding: 10px 20px;
+  position: sticky;
+  bottom: 0;
+  border-radius: 50px;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
 }
 
 .title {
+  font-size: 12px;
   font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .art {
   font-size: 12px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .price {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
   line-height: 120%;
-  color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.603);
+  margin-bottom: 10px;
 }
 
 .status {
@@ -40,70 +49,59 @@
   font-size: 12px;
   line-height: 150%;
   color: rgb(90, 171, 40);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .title_description {
   font-size: 12px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .description {
-  font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
+  margin-left: 20px;
 }
 
 .size_box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
+  justify-content: flex-start;
+  margin-bottom: 15px;
 }
 
-.list_size {
+.size_selector {
   display: flex;
   gap: 10px;
 }
 
-.size {
-  font-size: 14px;
-  padding-left: 15px;
-  padding-right: 15px;
-  min-height: 32px;
-  text-transform: uppercase;
-  background-color: #fff;
-  border-radius: 16px;
-  border: 1px solid #c1bfbf;
-  color: #302b2a;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-basis: auto;
-  line-height: 20px;
-  cursor: pointer;
+.radio_input {
+  display: none;
 }
 
-.button {
+.size_label {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  background-color: white;
+  color: black;
+  border: 1px solid #7a7a7a;
+  border-radius: 25px;
+  width: 28px;
+  height: 22px;
+  font-size: 12px;
   cursor: pointer;
-  padding: 14px 47px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 18px;
-  text-align: center;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: #ffffff;
-  background-color: red;
-  outline: none;
+  transition: background-color var(--main-transition), border-color var(--main-transition), color var(--main-transition);
 }
 
-.button svg {
-  margin-right: 10px;
-  width: 26px;
-  height: 26px;
+.size_label:hover {
+  border-color: orange;
+}
+
+.active {
+  background-color: orange;
+  color: white;
+  border-color: orange;
 }

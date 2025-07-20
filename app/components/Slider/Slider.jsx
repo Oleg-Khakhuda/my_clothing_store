@@ -54,10 +54,12 @@ const Slider = ({ products }) => {
               priority={true}
             />
             <div className={s.info}>
-              <h2 className={s.name}>
+              {/* <h2 className={s.name}>
                 {product.name.length > 15 ? product.name.split(' ').slice(0, 2).join(' ') : product.name}
-              </h2>
-              <p>{product.price} ₴</p>
+              </h2> */}
+              <p className={s.price}>
+                {product.price} <span>₴</span>
+              </p>
             </div>
           </Link>
         </SwiperSlide>

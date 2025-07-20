@@ -11,6 +11,7 @@ import {
   productByIdReducer,
 } from './features/products/slices'
 import { categoryReducer, categoryByMainSlugReducer } from './features/categories/slices'
+import { orderAllReducer, orderByUserReducer } from './features/order/slices'
 
 const authPersistConfig = {
   key: 'authToken',
@@ -36,10 +37,13 @@ export const makeStore = () => {
       category: categoryReducer,
       categoryByMainSlug: categoryByMainSlugReducer,
       products: productsReducer,
+      productsNew: productsReducer,
       productsByMainCat: productsByMainCatReducer,
       productsByCat: productsByCatReducer,
       productById: productByIdReducer,
       cart: cartPersistReducer,
+      allOrder: orderAllReducer,
+      orderByUser: orderByUserReducer,
     },
 
     middleware: getDefaultMiddleware =>

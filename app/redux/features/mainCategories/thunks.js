@@ -1,14 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-// const FETCH_GENDERCATEGORY = process.env.FETCH_GENDERCATEGORY;
-// axios.defaults.baseURL = 'http://localhost:7000'
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_NEXT_API_URL
 
 export const fetchMainCategoryThunk = createAsyncThunk(
   'mainCategory/fetchMainCategory',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('/api/mainCategories')
+      axios.defaults.baseURL = process.env.NEXT_PUBLIC_NEXT_API_URL
+      const { data } = await axios.get('api/gendercategories')
+
       return data.categories
     } catch (error) {
       console.log(error)
@@ -22,7 +23,7 @@ export const addMainCategoryThunk = createAsyncThunk(
   'mainCategory/addMainCategory',
   async (formData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post('http://localhost:7000/api/gendercategories', formData, {
+      const { data } = await axios.post('/api/gendercategories', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -38,7 +39,7 @@ export const updateMainCategoryThunk = createAsyncThunk(
   'mainCategory/updateMainCategory',
   async ({ id, formData }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`http://localhost:7000/api/gendercategories/update/${id}`, formData, {
+      const { data } = await axios.put(`/api/gendercategories/update/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -56,7 +57,7 @@ export const removeMainCategoryThunk = createAsyncThunk(
   'mainCategory/removeMainCategory',
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`http://localhost:7000/api/gendercategories/delete/${id}`)
+      const { data } = await axios.delete(`/api/gendercategories/delete/${id}`)
       console.log(data)
 
       return data

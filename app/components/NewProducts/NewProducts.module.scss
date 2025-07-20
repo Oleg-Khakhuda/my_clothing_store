@@ -3,9 +3,9 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  padding-left: 10px;
   &::before {
-    content: "";
+    content: '';
     width: 50px;
     height: 1px;
     background-color: rgba(157, 164, 189, 0.6);
@@ -16,5 +16,5 @@
 }
 
 .slider {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }

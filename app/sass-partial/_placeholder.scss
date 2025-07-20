@@ -1,0 +1,38 @@
+// %HoverFocus {
+//   background-color: var(--secondary-bg-color);
+//   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+// }
+
+%inter-base {
+  font-family: var(--font-inter), sans-serif;
+}
+
+%amaranth-base {
+  font-family: var(--font-amaranth), sans-serif;
+}
+
+%fontInter-regular {
+  @extend %inter-base;
+  font-weight: 400;
+}
+
+%fontInter-bold {
+  @extend %inter-base;
+  font-weight: 700;
+}
+
+%fontAmaranth-regular {
+  @extend %amaranth-base;
+  font-weight: 400;
+}
+
+%fontAmaranth-bold {
+  @extend %amaranth-base;
+  font-weight: 700;
+}
+
+%FlexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

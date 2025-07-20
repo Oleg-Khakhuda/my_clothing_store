@@ -32,11 +32,10 @@ const MainCategories = () => {
 
   return (
     <div>
-      <h2 className={s.title}>Обирайте одяг для всієї сім'ї</h2>
+      <h2 className={s.title}>Обирай одяг для всієї сім'ї</h2>
       {isLoading ? (
         <Loader />
       ) : (
-        // <div className={s.main}>
         <ul className={s.category_list}>
           {mainCategories ? (
             mainCategories.map(category => (
@@ -58,7 +57,6 @@ const MainCategories = () => {
             <div>Щось пішло не так! Спробуйте перезавантажити сторінку.</div>
           )}
         </ul>
-        // </div>
       )}
     </div>
   )

@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { useAppStore, useAppSelector } from '@/app/redux/hooks'
 import s from './ListCategories.module.scss'
 import { fetchCategoryByMainSlugThunk } from '@/app/redux/features/categories/thunks'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import { useAppDispatch } from '@/app/redux/hooks'
 
 const ListCategories = ({ mainSlug }) => {
   const store = useAppStore()
@@ -14,6 +15,10 @@ const ListCategories = ({ mainSlug }) => {
     store.dispatch(fetchCategoryByMainSlugThunk(mainSlug))
     initialized.current = true
   }
+  // const dispatch = useAppDispatch()
+  // useEffect(() => {
+  //   dispatch(fetchCategoryByMainSlugThunk(mainSlug))
+  // }, [dispatch, mainSlug])
 
   const categories = useAppSelector(state => state.categoryByMainSlug.items)
 

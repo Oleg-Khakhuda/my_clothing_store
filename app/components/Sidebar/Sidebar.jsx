@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { use } from 'react'
 import { useEffect, useState } from 'react'
 import { CiMenuFries } from 'react-icons/ci'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -48,8 +48,8 @@ const Sidebar = () => {
           {isAuth ? (
             <ul>
               <li>
-                {isAuthAdmin === 'administrator' ? (
-                  <Link onClick={toggleSidebar} href={'../../dashboard'} rel="preload">
+                {isAuth && isAuthAdmin === 'administrator' ? (
+                  <Link onClick={toggleSidebar} href={'../../dashboard/orders'} rel="preload">
                     Панель керування
                   </Link>
                 ) : (

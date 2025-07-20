@@ -3,11 +3,10 @@
 import s from './NewProducts.module.scss'
 import Slider from '../Slider/Slider'
 import { useAppSelector } from '../../redux/hooks'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const NewProducts = () => {
-  const allProducts = useAppSelector(state => state.products.items)
-  const products = allProducts.slice(0, 9)
+  const newProducts = useAppSelector(state => state.productsNew.items)
 
   // Expected server HTML to contain a matching <div> in <div>. Error Component Stack
 
@@ -21,10 +20,10 @@ const NewProducts = () => {
 
   return (
     <>
-      {products && (
+      {newProducts && (
         <div className={s.slider}>
           <h2 className={s.title}>Новинки</h2>
-          <Slider products={products} />
+          <Slider products={newProducts} />
         </div>
       )}
     </>

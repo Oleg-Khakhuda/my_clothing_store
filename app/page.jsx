@@ -20,9 +20,7 @@ const Home = () => {
     const state = store.getState()
     const token = state.auth.token
 
-    if (!token && state.auth?.user?.id !== '') {
-      return
-    } else if (token && state.auth?.user?.id === '') {
+    if (token) {
       dispatch(currentThunk(token))
     }
   }, [dispatch, store])

@@ -14,9 +14,9 @@ import { useState } from 'react'
 
 const Header = () => {
   const [letter, setLetter] = useState('')
-  console.log('letter', letter)
+  // console.log('letter', letter)
 
-  const avatar = useAppSelector(state => state.auth.user.avatarUrl)
+  const avatar = useAppSelector(state => state.auth.user?.avatarUrl)
   const user = useAppSelector(state => state.auth.user)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Header = () => {
       const lastLetter = user.lastName.charAt(0).toUpperCase()
       setLetter(`${firstLetter}${lastLetter}`)
     }
-  }, [avatar, user.firstName, user.lastName])
+  }, [avatar, user?.firstName, user?.lastName])
 
   return (
     <header className={s.header}>
@@ -36,7 +36,7 @@ const Header = () => {
       <Logo />
       <div className={s.right_side}>
         <div className={s.avatar}>
-          {avatar === '' ? (
+          {!avatar ? (
             <p className={s.avatar_letter}>{letter}</p>
           ) : (
             <Image className={s.avatar_img} src={avatar} alt="my avatar" width="50" height="50" />

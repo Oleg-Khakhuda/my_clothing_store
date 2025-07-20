@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   fetchProductsThunk,
+  fetchNewProductsThunk,
   fetchProductsByMainCatThunk,
   fetchProductsByCatThunk,
   fetchProductByIdThunk,
@@ -92,6 +93,31 @@ const productsSlice = createSlice({
   },
 })
 
+const newProductsSlice = createSlice({
+  name: 'newProducts',
+  initialState: {
+    items: [],
+    message: null,
+    error: null,
+    isLoading: false,
+  },
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(fetchNewProductsThunk.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(fetchNewProductsThunk.fulfilled, (state, action) => {
+        state.items = action.payload
+        state.isLoading = false
+      })
+      .addCase(fetchNewProductsThunk.rejected, (state, action) => {
+        state.error = action.payload.message
+        state.isLoading = false
+      })
+  },
+})
+
 const productsByMainCatSlice = createSlice({
   name: 'productsByMainCat',
   initialState: {
@@ -165,6 +191,7 @@ const productByIdSlice = createSlice({
 })
 
 export const productsReducer = productsSlice.reducer
+export const productsNewReducer = newProductsSlice.reducer
 export const productsByMainCatReducer = productsByMainCatSlice.reducer
 export const productsByCatReducer = productsByCatSlice.reducer
 export const productByIdReducer = productByIdSlice.reducer

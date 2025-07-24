@@ -11,6 +11,10 @@
   font-family: var(--font-amaranth), sans-serif;
 }
 
+%philosopher-base {
+  font-family: var(--font-philosopher), sans-serif;
+}
+
 %fontInter-regular {
   @extend %inter-base;
   font-weight: 400;
@@ -31,8 +35,22 @@
   font-weight: 700;
 }
 
+%fontPhilosopher-regular {
+  @extend %philosopher-base;
+  font-weight: 400;
+}
+
+%fontPhilosopher-bold {
+  @extend %philosopher-base;
+  font-weight: 700;
+}
+
 %FlexCenter {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+%BackgroundGradient {
+  background: linear-gradient(var(--accent-color), var(--secondary-color));
 }

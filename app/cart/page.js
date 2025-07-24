@@ -243,7 +243,7 @@ const Cart = () => {
               Continue Shopping
             </Link> */}
             <div>
-              <label htmlFor="firstname">Ім'я</label>
+              <label htmlFor="firstname">Ім&#39;я</label>
               <input
                 type="text"
                 id="firstname"

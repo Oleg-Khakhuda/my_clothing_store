@@ -1,3 +1,5 @@
+@import '../../sass-partial/placeholder';
+
 .main {
   margin-bottom: 30px;
 }
@@ -28,7 +30,7 @@
   position: relative;
   margin-bottom: 14px;
   border-radius: 20px;
-  background-color: var(--accent-color);
+  @extend %BackgroundGradient;
 }
 
 .category_link {
@@ -55,10 +57,9 @@
   transform: translateY(-50%);
   color: #ffffff;
   padding-left: 20px;
-  opacity: 0.15;
-  font-size: 52px;
+  opacity: 0.3;
+  font-size: 54px;
   text-transform: uppercase;
-  font-family: var(--font-inter);
-  font-weight: 700;
+  @extend %fontPhilosopher-bold;
   letter-spacing: 2px;
 }

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Logo from '../../../public/logo.webp'
+import Logo from '../../../public/logo_white.webp'
 import s from './Loader.module.scss'
 
 export default function Loader() {

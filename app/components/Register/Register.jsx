@@ -66,7 +66,7 @@ function Register() {
     <>
       <h2 className={s.title}>Реєстрація</h2>
       <form className={s.form} onSubmit={handleSubmit}>
-        <label className={s.label}>Ім'я</label>
+        <label className={s.label}>Ім&#39;я</label>
         <input className={s.input} type="text" name="firstName" value={firstName} onChange={handleChange}></input>
         <label className={s.label}>Призвіще</label>
         <input className={s.input} type="text" name="lastName" value={lastName} onChange={handleChange}></input>

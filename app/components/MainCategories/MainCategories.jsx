@@ -32,7 +32,7 @@ const MainCategories = () => {
 
   return (
     <div>
-      <h2 className={s.title}>Обирай одяг для всієї сім'ї</h2>
+      <h2 className={s.title}>Обирай одяг для всієї сім&#39;ї</h2>
       {isLoading ? (
         <Loader />
       ) : (

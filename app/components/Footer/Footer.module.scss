@@ -1,5 +1,7 @@
+@import '../../sass-partial/placeholder';
+
 .footer {
-  background-color: #ff5f1b;
+  @extend %BackgroundGradient;
   color: #ffffff;
   padding: 20px 0;
   margin-top: auto;

@@ -30,7 +30,7 @@ const Profile = () => {
           <Image src={user.avatar} alt={user.firstName} width={100} height={100} />
         </div>
       )}
-      <h2>Ім'я: {user.firstName}</h2>
+      <h2>Ім&#39;я: {user.firstName}</h2>
       <h2>Призвище: {user.lastName}</h2>
       <h2>Електронна пошта: {user.email}</h2>
       <h2>Телефон: {user.phone}</h2>

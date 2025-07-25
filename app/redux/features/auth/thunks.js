@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_NEXT_API_URL
+
 export const registerThunk = createAsyncThunk('user/register', async (user, { rejectWithValue }) => {
   try {
-    const data = await axios.post(`http://localhost:7000/api/auth/signup`, user)
+    const data = await axios.post('/api/auth/signup', user)
     // console.log(data)
 
     return data.data
@@ -14,7 +16,7 @@ export const registerThunk = createAsyncThunk('user/register', async (user, { re
 
 export const loginThunk = createAsyncThunk('user/login', async (user, { rejectWithValue }) => {
   try {
-    const data = await axios.post(`http://localhost:7000/api/auth/login`, user)
+    const data = await axios.post('/api/auth/login', user)
     // console.log(data.data)
     return data.data
   } catch (error) {
@@ -26,7 +28,7 @@ export const currentThunk = createAsyncThunk('user/current', async (token, { rej
   if (!token) return
 
   try {
-    const data = await axios.get(`http://localhost:7000/api/auth/current`, {
+    const data = await axios.get('/api/auth/current', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -43,7 +45,7 @@ export const logoutThunk = createAsyncThunk('user/logout', async (_, { rejectWit
   try {
     const state = getState()
     const token = state.auth.token
-    const data = await axios.post(`http://localhost:7000/api/auth/logout`, {
+    const data = await axios.post('/api/auth/logout', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

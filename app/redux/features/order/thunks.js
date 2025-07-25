@@ -45,3 +45,26 @@ export const fetchOrderByUserThunk = createAsyncThunk(
     }
   },
 )
+
+export const createOrderThunk = createAsyncThunk(
+  'order/createOrder',
+  async (orderData, { rejectWithValue, getState }) => {
+    const state = getState()
+    const token = state.auth.token
+
+    try {
+      const { data } = await axios.post(`/api/orders`, orderData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+
+      return rejectWithValue(error.message)
+    }
+  },
+)

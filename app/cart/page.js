@@ -1,14 +1,14 @@
 'use client'
 
-import React, { use, useEffect } from 'react'
+import React, { act, use, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { incrementQuantity, decrementQuantity, setQuantity } from '@/app/redux/features/cart/slices'
+import { createOrderThunk } from '@/app/redux/features/order/thunks'
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks'
 import s from './Cart.module.scss'
 import DeliverySelection from '../components/DeliverySelection/DeliverySelection'
-import axios from 'axios'
 import { GiShoppingCart } from 'react-icons/gi'
 import { removeFromCart } from '../redux/features/cart/slices'
 import { useModalConfirm } from '../components/hooks/useModalConfirm'
@@ -142,27 +142,9 @@ const Cart = () => {
     totalQuantity,
   ])
 
-  const data = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:7000/api/orders/',
-        { ...order, userId: user?.id },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      console.log(response)
-    } catch (error) {
-      console.error('Error creating order:', error)
-    }
-  }
-
   const handleSubmit = e => {
     e.preventDefault()
-    console.log('Замовлення:', order)
-    data()
+    dispatch(createOrderThunk({ ...order, userId: user?.id }))
   }
 
   return (

@@ -29,22 +29,16 @@ export const fetchCategoryByMainSlugThunk = createAsyncThunk(
   },
 )
 
-export const addCategoryThunk = createAsyncThunk('category/addCategory', async (categoryData, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.post('/api/categories', categoryData)
+export const addCategoryThunk = createAsyncThunk(
+  'category/addCategory',
+  async (categoryData, { rejectWithValue, getState }) => {
+    const state = getState()
+    const token = state.auth.token
 
-    return data
-  } catch (error) {
-    return rejectWithValue(error.message)
-  }
-})
-
-export const updateCategoryThunk = createAsyncThunk(
-  'category/updateCategory',
-  async ({ id, formData }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`/api/categories/update/${id}`, formData, {
+      const { data } = await axios.post('/api/categories', categoryData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       })
@@ -56,12 +50,43 @@ export const updateCategoryThunk = createAsyncThunk(
   },
 )
 
-export const removeCategoryThunk = createAsyncThunk('category/removeCategory', async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.delete(`/api/categories/delete/${id}`)
+export const updateCategoryThunk = createAsyncThunk(
+  'category/updateCategory',
+  async ({ id, formData }, { rejectWithValue, getState }) => {
+    const state = getState()
+    const token = state.auth.token
 
-    return data
-  } catch (error) {
-    return rejectWithValue(error.message)
-  }
-})
+    try {
+      const { data } = await axios.put(`/api/categories/update/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      return data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)
+
+export const removeCategoryThunk = createAsyncThunk(
+  'category/removeCategory',
+  async (id, { rejectWithValue, getState }) => {
+    const state = getState()
+    const token = state.auth.token
+
+    try {
+      const { data } = await axios.delete(`/api/categories/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)

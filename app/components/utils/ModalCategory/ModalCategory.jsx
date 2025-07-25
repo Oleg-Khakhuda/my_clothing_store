@@ -90,7 +90,6 @@ export const ModalCategory = ({ categoryData, isOpen, onClose, isEditing }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-
     const { title, image, newImage, id } = formCategoryData
     const formData = new FormData()
     formData.append('genderCategory', mainId)

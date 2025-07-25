@@ -9,8 +9,6 @@ export const Order = () => {
   const dispatch = useAppDispatch()
   const allOrder = useAppSelector(state => state.allOrder.items)
 
-  console.log(allOrder)
-
   useEffect(() => {
     dispatch(fetchAllOrderThunk())
   }, [dispatch])

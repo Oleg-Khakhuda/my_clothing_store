@@ -26,7 +26,7 @@ export const addMainCategoryThunk = createAsyncThunk(
     const token = state.auth.token
 
     try {
-      const { data } = await axios.post('/api/gendercategories', formData, {
+      const { data } = await axios.post('/api/gendercategories/', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

@@ -55,7 +55,6 @@ export const createOrderThunk = createAsyncThunk(
     try {
       const { data } = await axios.post(`/api/orders`, orderData, {
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       })

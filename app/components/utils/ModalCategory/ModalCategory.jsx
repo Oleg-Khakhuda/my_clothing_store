@@ -10,32 +10,37 @@ import s from './ModalCategory.module.scss'
 
 export const ModalCategory = ({ categoryData, isOpen, onClose, isEditing }) => {
   const mainCategories = useAppSelector(state => state.mainCategory.items)
+  console.log('mainCategories', mainCategories)
 
   const [formCategoryData, setFormCategoryData] = useState(categoryData)
   const [previewImage, setPreviewImage] = useState([])
   const { isModalConfirmOpen, openConfirmModal, closeConfirmModal, handleConfirm } = useModalConfirm()
-  const [mainId, setMainId] = useState('')
+  const [mainId, setMainId] = useState(mainCategories[0]?.id || '')
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (categoryData) {
-      setMainId(categoryData.genderCategory)
+    if (mainCategories) {
+      setMainId(mainCategories[0]?.id)
     }
-  }, [categoryData])
+  }, [mainCategories])
+
+  console.log('mainId', mainId)
 
   useEffect(() => {
     if (categoryData) {
       setFormCategoryData(prevProduct => ({
         ...prevProduct,
         id: categoryData?.id || '',
-        genderCategory: categoryData?.genderCategory || '',
+        genderCategory: categoryData?.genderCategory || mainId || '',
         title: categoryData?.title || '',
         image: categoryData?.image || [],
         newImage: {},
       }))
     }
-  }, [categoryData])
+  }, [categoryData, mainId])
+
+  console.log('formCategoryData', formCategoryData)
 
   const handleChangeMain = e => {
     setMainId(e.target.value)

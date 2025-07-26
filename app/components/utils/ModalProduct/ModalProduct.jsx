@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
-import { fetchCategoryThunk } from '../../../redux/features/categories/thunks'
+import { fetchCategoryByMainSlugThunk } from '../../../redux/features/categories/thunks'
 import { removeProductImageThunk } from '../../../redux/features/products/thunks'
 import Image from 'next/image'
 import allSizes from '../../../sizes.json'
@@ -18,7 +18,7 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
   const [formProductData, setFormProductData] = useState(productData)
 
   const mainCategories = useAppSelector(state => state.mainCategory.items)
-  const categories = useAppSelector(state => state.category.items)
+  const categories = useAppSelector(state => state.categoryByMainSlug.items)
 
   const [mainId, setMainId] = useState('')
   const [mainSlug, setMainSlug] = useState('')
@@ -35,9 +35,11 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
 
   useEffect(() => {
     if (mainSlug) {
-      dispatch(fetchCategoryThunk(mainSlug))
+      dispatch(fetchCategoryByMainSlugThunk(mainSlug))
     }
   }, [dispatch, mainSlug])
+
+  console.log('mainSlug', mainSlug)
 
   useEffect(() => {
     if (categories.length > 0) {
@@ -138,6 +140,8 @@ export const ModalProduct = ({ isOpen, onClose, onSubmit, productData, isEditing
       }))
     }
   }, [categoryId, mainId, productData])
+
+  console.log('formProductData', formProductData)
 
   const handleSubmit = e => {
     e.preventDefault()

@@ -1,11 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-// const FETCH_PRODUCTS = process.env.FETCH_PRODUCTS
-// const FETCH_PRODUCTS_BY_MAINCAT = process.env.FETCH_PRODUCTS_BY_MAINCAT
-// const FETCH_PRODUCT_BY_ID = process.env.FETCH_PRODUCT_BY_ID
-// const ADD_PRODUCT = process.env.ADD_PRODUCT
-
 export const fetchProductsThunk = createAsyncThunk('products/fetchProducts', async (_, { rejectWithValue }) => {
   try {
     const { data } = await axios.get('/api/products/allProducts')
@@ -75,64 +70,88 @@ export const fetchProductByIdThunk = createAsyncThunk(
   },
 )
 
-export const addProductThunk = createAsyncThunk('products/addProduct', async (formData, { rejectWithValue }) => {
-  try {
-    // const { data } = await axios.post(
-    //   '/api/products/add_product/',
-    //   formData,
-    const { data } = await axios.post('/api/products/', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    console.log(data)
+export const addProductThunk = createAsyncThunk(
+  'products/addProduct',
+  async (formData, { rejectWithValue, getState }) => {
+    try {
+      const state = getState()
+      const token = state.auth.token
 
-    return data.result
-  } catch (error) {
-    console.log(error)
+      const { data } = await axios.post('/api/products/', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      console.log(data)
 
-    return rejectWithValue(error.message)
-  }
-})
+      return data.result
+    } catch (error) {
+      console.log(error)
 
-export const updateProductThunk = createAsyncThunk('products/updateProduct', async (prop, { rejectWithValue }) => {
-  try {
-    // const { data } = await axios.post(
-    //   '/api/products/add_product/',
-    //   formData,
-    const { data } = await axios.put(`/api/products/update/${prop.id}`, prop.formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+      return rejectWithValue(error.message)
+    }
+  },
+)
 
-    return data
-  } catch (error) {
-    console.log(error)
+export const updateProductThunk = createAsyncThunk(
+  'products/updateProduct',
+  async (prop, { rejectWithValue, getState }) => {
+    try {
+      const state = getState()
+      const token = state.auth.token
 
-    return rejectWithValue(error.message)
-  }
-})
+      const { data } = await axios.put(`/api/products/update/${prop.id}`, prop.formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
 
-export const removeProductThunk = createAsyncThunk('products/removeProduct', async (productId, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.delete(`/api/products/delete/${productId}`)
-    console.log(data)
+      return data
+    } catch (error) {
+      console.log(error)
 
-    return data
-  } catch (error) {
-    console.log(error)
+      return rejectWithValue(error.message)
+    }
+  },
+)
 
-    return rejectWithValue(error.message)
-  }
-})
+export const removeProductThunk = createAsyncThunk(
+  'products/removeProduct',
+  async (productId, { rejectWithValue, getState }) => {
+    try {
+      const state = getState()
+      const token = state.auth.token
+
+      const { data } = await axios.delete(`/api/products/delete/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      console.log(data)
+
+      return data
+    } catch (error) {
+      console.log(error)
+
+      return rejectWithValue(error.message)
+    }
+  },
+)
 
 export const removeProductImageThunk = createAsyncThunk(
   'products/removeProductImage',
-  async (props, { rejectWithValue }) => {
+  async (props, { rejectWithValue, getState }) => {
     try {
-      const { data } = await axios.put(`/api/products/deleteImage/${props.id}?public_id=${props.idFileCloud}`)
-      console.log(data)
+      const state = getState()
+      const token = state.auth.token
+
+      const { data } = await axios.put(`/api/products/deleteImage/${props.id}?public_id=${props.idFileCloud}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       return data
     } catch (error) {

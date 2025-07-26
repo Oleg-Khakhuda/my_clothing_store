@@ -38,7 +38,9 @@ const productsSlice = createSlice({
         state.isLoading = true
       })
       .addCase(addProductThunk.fulfilled, (state, action) => {
-        state.items = [action.payload.result, ...state.items]
+        console.log('action.payload', action.payload)
+
+        state.items = [action.payload, ...state.items]
         state.message = action.payload.message
         state.isLoading = false
       })
